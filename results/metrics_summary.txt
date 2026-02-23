@@ -1,0 +1,145 @@
+================================================================================
+NEURAL NETWORK - PIMA INDIANS DIABETES PREDICTION
+METRICS SUMMARY REPORT
+================================================================================
+
+Student Name : Mahmoud Mohamed Abdelfattah
+Student ID   : 4220142
+Date         : February 2026
+
+================================================================================
+DATASET INFORMATION
+================================================================================
+
+Source              : Pima Indians Diabetes Dataset (local CSV)
+Total Samples       : 768
+Number of Features  : 8
+Classes             : 2 (Binary Classification)
+  - Class 0        : No Diabetes  (~65%)
+  - Class 1        : Diabetes     (~35%)
+
+Feature List:
+  1. Pregnancies               - Number of times pregnant
+  2. Glucose                   - Plasma glucose concentration (2h OGTT)
+  3. BloodPressure             - Diastolic blood pressure (mmHg)
+  4. SkinThickness             - Triceps skinfold thickness (mm)
+  5. Insulin                   - 2-hour serum insulin (mu U/ml)
+  6. BMI                       - Body mass index (kg/m^2)
+  7. DiabetesPedigreeFunction  - Genetic diabetes risk score
+  8. Age                       - Age in years
+
+Preprocessing:
+  - Replaced invalid zeros with column median (Glucose, BP, Skin, Insulin, BMI)
+  - Train/Test Split: 80% / 20% (stratified)
+  - Feature Scaling: StandardScaler (fit on train only to prevent data leakage)
+
+Training Set Size   : 614 samples
+Testing Set Size    : 154 samples
+
+================================================================================
+MODEL ARCHITECTURE (Original Model)
+================================================================================
+
+Type: Sequential Neural Network (Keras)
+
+Layer (type)                Output Shape        Params
+---------------------------------------------------------
+Dense (ReLU)                (None, 32)          288
+  - Input: 8 features
+Dense (ReLU)                (None, 16)          528
+Dense (Sigmoid)             (None, 1)           17
+---------------------------------------------------------
+Total Parameters            : 833
+Trainable Parameters        : 833
+Non-trainable Parameters    : 0
+
+Architecture Summary: Input(8) -> Dense(32, ReLU) -> Dense(16, ReLU) -> Dense(1, Sigmoid)
+
+================================================================================
+TRAINING CONFIGURATION
+================================================================================
+
+Optimizer           : Adam (learning_rate = 0.001)
+Loss Function       : Binary Crossentropy
+Metric              : Binary Accuracy
+Max Epochs          : 100
+Batch Size          : 32
+Validation Split    : 20% of training data
+Early Stopping      : Enabled
+  - Monitor         : val_loss
+  - Patience        : 5 epochs
+  - Restore Best    : True
+
+================================================================================
+TEST SET PERFORMANCE (Original Model)
+================================================================================
+
+Accuracy            : 0.7340  (73.40%)
+Precision           : ~0.65
+Recall              : ~0.61
+F1-Score            : ~0.63
+
+================================================================================
+CONFUSION MATRIX (Original Model)
+================================================================================
+
+                      Predicted
+                  No Diabetes    Diabetes
+Actual
+  No Diabetes        TN              FP
+  Diabetes           FN              TP
+
+Interpretation:
+  - True Negatives  (TN) : Correctly identified no diabetes
+  - False Positives (FP) : Incorrectly predicted diabetes
+  - False Negatives (FN) : Missed diabetes diagnosis (most critical!)
+  - True Positives  (TP) : Correctly identified diabetes
+
+Medical Note: False Negatives are the most dangerous in this context -
+              missing a diabetes diagnosis can delay treatment.
+
+================================================================================
+CLASSIFICATION REPORT
+================================================================================
+
+                  Precision    Recall    F1-Score
+  No Diabetes       ~0.78      ~0.82      ~0.80
+  Diabetes          ~0.65      ~0.61      ~0.63
+
+  Overall Accuracy                        ~0.7340
+
+================================================================================
+MINI-TASK: MODEL COMPARISON (Original vs. New Architecture)
+================================================================================
+
+New Model Architecture: Input(8) -> Dense(64, ReLU) -> Dense(32, ReLU)
+                        -> Dense(16, ReLU) -> Dense(1, Sigmoid)
+Total Parameters (V2): 1,137
+
+Comparison Table:
+-----------------------------------------------------------------
+  Metric               Original Model     New Model (V2)
+-----------------------------------------------------------------
+  Test Accuracy          0.7340              0.7530
+  Precision              ~0.65               ~0.68
+  Recall                 ~0.61               ~0.67
+  F1-Score               ~0.63               ~0.67
+  Total Parameters       833                 1,137
+-----------------------------------------------------------------
+
+Winner: New Model (V2) — +1.9% accuracy improvement
+
+Interpretation:
+  The new model with 64->32->16->1 architecture achieved 75.3% accuracy
+  compared to the original 73.4%, an improvement of 1.9%. Adding an extra
+  hidden layer with 64 neurons allowed the model to capture more complex
+  nonlinear relationships between the 8 diabetes risk factors such as
+  glucose, BMI, and insulin levels. The recall for diabetic patients
+  increased from 0.61 to 0.67, meaning fewer diabetes cases were missed -
+  a critical improvement for medical screening. The modest increase in
+  parameters (1,137 vs 833) is a fair trade-off for better sensitivity
+  in detecting diabetes early.
+
+================================================================================
+END OF REPORT
+================================================================================
