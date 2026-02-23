@@ -53,6 +53,11 @@ neural-network-diabetes/
 2. Place `diabetes.csv` in the same directory as the notebook.
 3. Open `pima_diabetes_nn.ipynb` and run all cells sequentially.
 
+## Google Colab
+
+You can view and run the notebook directly on Google Colab:
+[Open in Colab](https://colab.research.google.com/drive/1rhHycP2TUhOuFQ2Ql6CMaGW0KQrXuvbw#scrollTo=ca867b55)
+
 ## Tools & Libraries
 
 - Python 3.x
